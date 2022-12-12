@@ -1,7 +1,7 @@
 #include "raylib.h"
 const int screenWidth = 640;
 const int screenHeight = 480;
-const int playerSpeed = 3;
+const int playerSpeed = 1;
 
 class Sprite {
 	int X;
@@ -54,14 +54,16 @@ public:
 };
 
 void movePlayer(Sprite *player){
+	int speed = IsKeyDown(KEY_LEFT_SHIFT)?1:2;
+
 	if(IsKeyDown(KEY_RIGHT))
-		player->moveX(playerSpeed);
+		player->moveX(speed);
 	if(IsKeyDown(KEY_LEFT))
-		player->moveX(-playerSpeed);
+		player->moveX(-speed);
 	if(IsKeyDown(KEY_UP))
-		player->moveY(-playerSpeed);
+		player->moveY(-speed);
 	if(IsKeyDown(KEY_DOWN))
-		player->moveY(playerSpeed);
+		player->moveY(speed);
 }
 int main(){
 	InitWindow(screenHeight,screenWidth,"AA");
