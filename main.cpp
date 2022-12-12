@@ -5,38 +5,39 @@ const int screenHeight = 480;
 class Sprite {
 	int X;
 	int Y;
-	Texture2d Texture;
+	Texture2D Texture;
 
 	int SizeX;
 	int SizeY;
-
+public:
 	void display(){
-		DrawTexture(texture,X,Y,WHITE);
+		DrawTexture(Texture,X,Y,WHITE);
 	}
 	void drawHitbox(Color tint){
 		DrawRectangle(X,Y,SizeX,SizeY,tint);
 	}
-	Rectangle getHitbox(){
-
+	Rectangle* getHitbox(){
+		return nullptr;
 	}
-
-}
+	Sprite(Texture2D Texture, int X, int Y){
+		this->X = X;
+		this->Y = Y;
+		this->Texture = Texture;
+	}
+};
 
 int main(){
 	InitWindow(screenHeight,screenWidth,"AA");
 	SetTargetFPS(60);
 	int display = GetCurrentMonitor();
 	ToggleFullscreen();
-	
-	Texture2D playerTexture = LoadTexture("player.png");
+	Sprite player(LoadTexture("player.png"),240,240);
 	
 	while (!WindowShouldClose())    // Detect window close button or ESC key
 	{
 		BeginDrawing();
-		ClearBackground(BLACK);
 			ClearBackground(BLACK);
-			DrawText("Press Alt + Enter to Toggle full screen!", 190, 200, 20, LIGHTGRAY);
-		        DrawTexture(playerTexture, posX, posY, WHITE);
+			player.display();
 		EndDrawing();
 	}
 	CloseWindow();
