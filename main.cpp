@@ -3,13 +3,13 @@ const int screenWidth = 640;
 const int screenHeight = 480;
 
 class Sprite {
-	int X;
-	int Y;
-	Texture2D Texture;
 
 	int SizeX;
 	int SizeY;
 public:
+	int X;
+	int Y;
+	Texture2D Texture;
 	void display(){
 		DrawTexture(Texture,X,Y,WHITE);
 	}
@@ -26,6 +26,16 @@ public:
 	}
 };
 
+void movePlayer(Sprite*player){
+	if(IsKeyPressed(KEY_RIGHT))
+		player->X++;
+	if(IsKeyPressed(KEY_LEFT))
+		player->X--;
+	if(IsKeyPressed(KEY_UP))
+		player->Y--;
+	if(IsKeyPressed(KEY_DOWN))
+		player->Y++;
+}
 int main(){
 	InitWindow(screenHeight,screenWidth,"AA");
 	SetTargetFPS(60);
@@ -37,7 +47,9 @@ int main(){
 	{
 		BeginDrawing();
 			ClearBackground(BLACK);
+			movePlayer(&player);
 			player.display();
+			player.drawHitbox(WHITE);
 		EndDrawing();
 	}
 	CloseWindow();
