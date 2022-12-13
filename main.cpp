@@ -8,24 +8,37 @@ class Sprite {
 	int Y;
 	Texture2D Texture;
 
+	int HitX;
+	int HitY;
+	int HitSizeX;
+	int HitSizeY;
+
 	int SizeX;
 	int SizeY;
+
 public:
+	void (*callFrame)(Sprite*);
 	void display(){
 		DrawTexture(Texture,X,Y,WHITE);
 	}
 	void drawHitbox(Color tint){
-		DrawRectangle(X,Y,SizeX,SizeY,tint);
+		DrawRectangle(X+HitX,Y+HitY,HitSizeX,HitSizeY,tint);
 	}
 	Rectangle* getHitbox(){
 		return nullptr;
 	}
-	Sprite(Texture2D Texture, int X, int Y, int SizeX, int SizeY){
+	Sprite(Texture2D Texture, int X, int Y, int SizeX, int SizeY, int HitX, int HitY, int HitSizeX, int HitSizeY, void (*callFrame)(Sprite*)){
 		this->X = X;
 		this->Y = Y;
 		this->SizeX = SizeX;
 		this->SizeY = SizeY;
+		this->HitX = HitX;
+		this->HitY = HitY;
+		this->HitSizeX = HitSizeX;
+		this->HitSizeY = HitSizeY;
+
 		this->Texture = Texture;
+		this->callFrame = callFrame;
 	}
 	void moveX(int move){
 		int Xmax = screenWidth-SizeX;
@@ -70,13 +83,12 @@ int main(){
 	SetTargetFPS(60);
 	int display = GetCurrentMonitor();
 	ToggleFullscreen();
-	Sprite player(LoadTexture("player.png"),240,240,32,32);
-	
+	Sprite player(LoadTexture("player.png"),240,240,32,32,15,15,2,2,&movePlayer);
 	while (!WindowShouldClose())    // Detect window close button or ESC key
 	{
 		BeginDrawing();
-			ClearBackground(BLACK);
-			movePlayer(&player);
+			ClearBackground(WHITE);
+			player.callFrame(&player);
 			player.display();
 			player.drawHitbox(WHITE);
 		EndDrawing();
